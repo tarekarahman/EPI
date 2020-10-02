@@ -68,6 +68,18 @@ vector<int> intersectEfficient(const vector<int>& A, const vector<int>& B){
     
     return result;
     }
+    
+    void merge2SortedArrays( vector<int>& A, int m, const vector<int>& B, int n){
+    int i=m-1,j=n-1, write_idx=m+n-1;
+    while(i>=0 && j>=0){
+    
+        A[write_idx--] = (B[j] >= A[i] ? B[j--] : A[i--])  ;   
+        }
+        while(j>=0){
+            A[write_idx--]=B[j--];
+            }
+    
+    }
 
 int main()
 {
@@ -77,6 +89,18 @@ vector<int> A={2,3,3,5,5,6,7,7,8,12};
 vector<int> A1={2,3,3,5,7,11};
 vector<int> B={5,5,6,8,8,9,10,10};
 vector<int> B1={3,3,7,15,31};
+
+int m =3, n=4;
+vector<int> A3={3,13,17};
+A3.resize(m+n);
+vector<int> B3={3,7,11,19};
+
+
+merge2SortedArrays(A3,m, B3, n); //O(m + n)
+     for(auto it = A3.begin();it != A3.end();++it){
+      cout<<' '<<*it;
+      }
+      cout<<endl;
 
 
 //cout<<bsearchFirstOccur(A,285)<<endl;
