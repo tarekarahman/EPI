@@ -87,6 +87,33 @@ bool isPalindromic(string s){
 
             
             }
+            
+            int replaceRemove(int size, char s[]){
+                int writeIdx = 0, nAs =0;
+                for(int i =0;i<size;i++){
+                    if(s[i] != 'b'){
+                        s[writeIdx++]=s[i];
+                        }
+                    if(s[i] == 'a'){
+                        nAs++;
+                        }
+                    }
+                auto currentIdx = writeIdx-1;
+                writeIdx=currentIdx+nAs;
+                const int finalSize=writeIdx+1;
+                while(writeIdx >= 0 && currentIdx>=0){
+
+                    if(s[currentIdx] == 'a'){
+                        s[writeIdx--]='d';
+                        s[writeIdx--] = 'd';
+                        }
+                    else{
+                        s[writeIdx--]=s[currentIdx];
+                        }
+                        currentIdx--;
+                    }
+                return finalSize;
+                }
     
 int main()
 {
@@ -106,8 +133,14 @@ cout<<sReverse<<endl;
 
 int b1=7, b2=13;
 string s3= "615";
-cout<< convertBase(s3,b1,b2);
+cout<< convertBase(s3,b1,b2)<<endl;
 
-
+char s4[]={'a','c','d','b','b','c','a'};
+auto size = (sizeof(s4) / sizeof(char));
+auto finalSize=replaceRemove(size,s4);
+cout<<"Output array is "<<finalSize<<endl;
+for(int i = 0;i<finalSize;++i){
+    cout<<s4[i]<<endl;
+    }
 
 }
