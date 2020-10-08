@@ -6,6 +6,7 @@
 #include <numeric>
 #include <unordered_map>
 #include <cassert>
+#include <numeric>
 
 using namespace std;
 
@@ -45,6 +46,59 @@ value=(value*kmult+c) % modulus;
   return value;
 }
 
+bool isLetterConstFromMagazine(const string& letter, const string& mag){
+unordered_map<char, int> hashTable;
+  for (const char&c: letter){
+  ++hashTable[c];
+  }
+  for (const char&c: mag){
+    auto it = hashTable.find(c);
+    if(it!= hashTable.end()){
+      --hashTable[c];
+    }
+    if(it== hashTable.end()){
+    hashTable.erase(it);
+    if(hashTable.size()==0){
+      break;
+    }
+    }
+
+  }
+  return hashTable.empty();
+}
+
+int findNearestRepitition(const vector<string>& paragraph){
+unordered_map<string,int> hashTable;
+  int i=0;
+  int nearestOcc=numeric_limits<int>::max();
+for(const auto& word: paragraph){
+  if(auto itClosest = hashTable.find(word); itClosest != hashTable.end()){
+      nearestOcc = min(i-itClosest->second, nearestOcc);
+  }
+    //hashTable.insert({word, i });
+  hashTable[word]=i;
+      i++;
+
+}  
+  return nearestOcc != numeric_limits<int>::max()? nearestOcc: -1;
+
+}
+
+void SimpleTest() {
+  assert(!isLetterConstFromMagazine("123", "456"));
+  assert(!isLetterConstFromMagazine("123", "12222222"));
+  assert(isLetterConstFromMagazine("123", "1123"));
+  assert(isLetterConstFromMagazine("123", "123"));
+  assert(!isLetterConstFromMagazine("12323", "123"));
+  assert(
+      isLetterConstFromMagazine("GATTACA", "A AD FS GA T ACA TTT"));
+  assert(!isLetterConstFromMagazine("a", ""));
+  assert(isLetterConstFromMagazine("aa", "aa"));
+  assert(isLetterConstFromMagazine("aa", "aaa"));
+  assert(isLetterConstFromMagazine("", "123"));
+  assert(isLetterConstFromMagazine("", ""));
+}
+
 // To execute C++, please define "int main()"
 int main() {
   vector<string> words = { "debitcard", "elvis", "silent", "badcredit", "lives", "freedom", "listen", "levis"
@@ -62,6 +116,11 @@ int main() {
     }
     cout<<endl;
   }
+  
+  vector<string> paragraph{"All", "work", "and", "no", "play", "makes", "for", "no", "work", "no"};
+  cout<<findNearestRepitition(paragraph)<<endl;
+  assert(findNearestRepitition(paragraph)==2);
+  
   return 0;
 }
 
